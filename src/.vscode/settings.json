@@ -1,0 +1,8 @@
+{
+    "python.languageServer": "None",
+    "files.exclude": {
+        "**/__pycache__": true
+    },
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 100
+}
