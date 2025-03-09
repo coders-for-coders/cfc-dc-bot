@@ -9,17 +9,9 @@ class bot:
     cogs = [
         "admin",
         "ai",
-        "autoresponder",
         "dev",
         "events",
-        "gif_commands",
-        "fun_tools",
         "help",
-        "image_tools",
-        "lovecalc",
-        "minecraft",
-        "music",
-        "text_tools",
         "tools"
     ]
     

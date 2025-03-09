@@ -109,9 +109,10 @@ class Help(commands.Cog):
         
         #global prefix
         prefix = await self.bot.db["prefix"].find_one({"guild_id": ctx.guild.id})
-        prefix = prefix["prefix"]
         if prefix == None:
             prefix = config.bot.default_prefix
+        else:
+            prefix = prefix["prefix"]
         if not command:
             embed= discord.Embed(
                 title= f"**{self.bot.user.name}'s help desk**",
@@ -125,7 +126,6 @@ class Help(commands.Cog):
 
             view = View().add_item(HelpSelect(self.bot))
             await ctx.send (embed=embed, view= view)
-            
             return        
             
         try:

@@ -27,8 +27,12 @@ class Tools (Cog):
         bot_ping = int(self.bot.latency*1000)
 
         # database ping
+
+        data = {"ping": "pong"}
+        await self.bot.db["ping"].update_one({"ping": "pong"}, {"$setOnInsert": data}, upsert=True)
+
         tm = time.time()
-        await self.bot.db["homie"]["ping"].find_one({"ping":"pong"})
+        await self.bot.db["ping"].find_one({"ping":"pong"})
         db_ping = int((time.time()-tm)*1000)  / 2
 
         embed = discord.Embed()
