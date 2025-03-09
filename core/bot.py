@@ -4,7 +4,6 @@ import config
 import asyncio
 import time
 from typing import Callable, Coroutine, List
-import wavelink
 from motor.motor_asyncio import AsyncIOMotorClient
 import logging
 
@@ -22,7 +21,6 @@ class MyBot(commands.Bot):
             )
         
         self.uptime = None
-        self.nodes: List[wavelink.Node] = []
         self.setup_logger()
         self.help_command = None
 
@@ -94,26 +92,3 @@ class MyBot(commands.Bot):
                 self.logger.error(f"Failed to load: {cog}")
                 self.logger.error(e)
         self.logger.info("Loaded all cogs")
-
-
-    @startup_task.append
-    async def setup_wavelink(self):
-        # await asyncio.sleep(5)
-        
-        for i, node in enumerate(config.lavalink.nodes, start=1):
-            uri = "ws://{}:{}".format(node.get("host"), node.get("port"))
-
-            node_config = wavelink.Node(
-                identifier= f"Node {i}",
-                uri=uri,
-                password=node.get("auth"),
-                client=self,
-                retries=3
-            )
-            
-            try:
-                await wavelink.Pool.connect(client=self, nodes=[node_config])
-                self.nodes.append(node_config)
-                self.logger.info(f"Connected to {node_config.identifier}")
-            except Exception as e:
-                self.logger.error(f"Failed to connect to node {i}: {e}")
