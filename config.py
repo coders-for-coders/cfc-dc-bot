@@ -10,6 +10,7 @@ class bot:
         "admin",
         "ai",
         "dev",
+        "error",
         "events",
         "help",
         "tools"

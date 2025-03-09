@@ -37,3 +37,5 @@ ENV/
 *.log
 .coverage
 htmlcov/
+
+pm2.json

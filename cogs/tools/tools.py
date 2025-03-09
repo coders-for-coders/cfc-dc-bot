@@ -230,7 +230,7 @@ class Tools (Cog):
         base_url = "http://api.openweathermap.org/data/2.5/weather?"
             
         complete_url = base_url + "appid=" + config.api.weather + "&q=" + city
-        data = requests.get(complete_url).json
+        data = requests.get(complete_url).json()
 
         
         

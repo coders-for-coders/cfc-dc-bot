@@ -16,7 +16,7 @@ class Help(Cog):
 
 
 class HelpSelect(Select):
-    def __init__(self, bot:commands.Bot):
+    def __init__(self, bot:MyBot):
         super().__init__(
             placeholder= "Choose a category",
             options=[
@@ -75,10 +75,11 @@ class HelpSelect(Select):
 
         global prefix
         prefix = await self.bot.db["prefix"].find_one({"guild_id": interaction.guild.id})
-        prefix = prefix["prefix"]
         
         if prefix == None:
             prefix = config.bot.default_prefix
+        else:
+            prefix = prefix["prefix"]
          
         embed= discord.Embed(color=config.color.no_color)
 
