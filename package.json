@@ -21,8 +21,10 @@
     },
     "homepage": "https://github.com/coders-for-coders/cfc-dc-bot#readme",
     "dependencies": {
+        "axios": "^1.8.3",
         "discord.js": "^14.18.0",
-        "dotenv": "^16.4.7"
+        "dotenv": "^16.4.7",
+        "googlethis": "^1.8.0"
     },
     "devDependencies": {
         "tsup": "^8.4.0",

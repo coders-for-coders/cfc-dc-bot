@@ -6,7 +6,9 @@ import * as path from "path";
 dotenv.config();
 
 const commands: any[] = [];
-const foldersPath: string = path.join(path.dirname("."), "src", "commands");
+
+const basePath = path.join(process.cwd(), "src");
+const foldersPath = path.join(basePath, "commands");
 const commandFolders: string[] = fs.readdirSync(foldersPath);
 
 export const deployCommands = async () => {
@@ -62,4 +64,3 @@ export const deployCommands = async () => {
 };
 
 deployCommands();
-
