@@ -1,0 +1,55 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up SSH for VM and GitHub
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+          ssh-keyscan -H $SERVER_IP >> ~/.ssh/known_hosts
+
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'ENDSSH'
+            eval $(ssh-agent -s)
+            ssh-add ~/.ssh/github
+            
+            if [ ! -d "~/cfc-dc-bot" ]; then
+             
+              git clone git@github.com:coders-for-coders/cfc-dc-bot.git ~/cfc-dc-bot
+            fi
+
+            cd ~/cfc-dc-bot
+            git pull
+
+            source ~/.nvm/nvm.sh
+            nvm use 22
+
+            npm install
+            npm run build
+
+            if pm2 list | grep -q "cfc-dc-bot"; then
+              pm2 restart cfc-dc-bot
+            else
+              pm2 start npm --name "cfc-dc-bot" -- start
+            fi
+            pm2 save
+          
+          ENDSSH

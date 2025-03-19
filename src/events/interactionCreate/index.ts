@@ -1,14 +1,18 @@
-import { CommandInteraction, Events, Collection } from "discord.js";
+import { CommandInteraction, Events, Collection, AutocompleteInteraction, ChatInputCommandInteraction } from "discord.js";
 
 declare module "discord.js" {
     export interface Client {
-        commands: Collection<string, any>;
+        commands: Collection<string, Command>;
     }
+}
+
+interface Command {
+    execute(interaction: ChatInputCommandInteraction): Promise<void>;
 }
 
 export default {
     name: Events.InteractionCreate,
-    async execute(interaction: CommandInteraction) {
+    async execute(interaction: AutocompleteInteraction | ChatInputCommandInteraction) {
         if (!interaction.isChatInputCommand()) return;
 
         const command = interaction.client.commands.get(
