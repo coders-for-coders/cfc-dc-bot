@@ -36,6 +36,7 @@ jobs:
               git clone --branch discord.js git@github.com:coders-for-coders/cfc-dc-bot.git ~/cfc-dc-bot 
             fi
 
+            
             cd ~/cfc-dc-bot
             git pull
 
